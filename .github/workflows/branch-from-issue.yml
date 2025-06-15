@@ -1,122 +1,70 @@
-name: Create Branch from Issue
+name: Create branch from new issue
 
 on:
   issues:
     types: [opened]
-  issue_comment:
-    types: [created]
 
 jobs:
   create-branch:
     runs-on: ubuntu-latest
-    if: |
-      (github.event_name == 'issues' && github.event.action == 'opened') ||
-      (github.event_name == 'issue_comment' && 
-       github.event.issue.state == 'open' && 
-       contains(github.event.comment.body, '/create-branch'))
-    
+    if: github.event.issue.pull_request == null
     steps:
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-    
-    - name: Extract issue info
-      id: issue-info
+        fetch-depth: 0
+
+    - name: Set up Git identity
       run: |
-        ISSUE_NUMBER="${{ github.event.issue.number }}"
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+    - name: Create and push branch
+      run: |
+        ISSUE_NUMBER=${{ github.event.issue.number }}
         ISSUE_TITLE="${{ github.event.issue.title }}"
         
-        # Clean the title for branch name (remove special chars, convert to lowercase)
-        CLEAN_TITLE=$(echo "$ISSUE_TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-\|-$//g')
+        # Clean the title for branch name
+        SLUG=$(echo "$ISSUE_TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-\|-$//g')
         
-        # Create branch name format: issue-{number}-{cleaned-title}
-        BRANCH_NAME="issue-${ISSUE_NUMBER}-${CLEAN_TITLE}"
-        
-        # Truncate if too long (max 50 chars)
-        if [ ${#BRANCH_NAME} -gt 50 ]; then
-          BRANCH_NAME=$(echo "$BRANCH_NAME" | cut -c1-47)...
+        # Truncate if too long
+        if [ ${#SLUG} -gt 40 ]; then
+          SLUG=$(echo "$SLUG" | cut -c1-40)
         fi
         
-        echo "branch-name=$BRANCH_NAME" >> $GITHUB_OUTPUT
-        echo "issue-number=$ISSUE_NUMBER" >> $GITHUB_OUTPUT
-        echo "issue-title=$ISSUE_TITLE" >> $GITHUB_OUTPUT
-    
-    - name: Create branch
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
+        BRANCH_NAME="issue-${ISSUE_NUMBER}-${SLUG}"
         
-        # Create and push the new branch
-        git checkout -b ${{ steps.issue-info.outputs.branch-name }}
-        git push origin ${{ steps.issue-info.outputs.branch-name }}
-    
+        echo "Creating branch: $BRANCH_NAME"
+        git checkout -b "$BRANCH_NAME"
+        git push origin "$BRANCH_NAME"
+
     - name: Comment on issue
       uses: actions/github-script@v7
       with:
         script: |
-          const branchName = '${{ steps.issue-info.outputs.branch-name }}';
-          const issueNumber = ${{ steps.issue-info.outputs.issue-number }};
+          const branchName = `issue-${{ github.event.issue.number }}-${
+            '${{ github.event.issue.title }}'
+              .toLowerCase()
+              .replace(/[^a-z0-9]/g, '-')
+              .replace(/-+/g, '-')
+              .replace(/^-|-$/g, '')
+              .substring(0, 40)
+          }`;
           
           await github.rest.issues.createComment({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            issue_number: issueNumber,
-            body: `🌱 **Branch created!**
+            issue_number: ${{ github.event.issue.number }},
+            body: `🌱 **Branch created automatically!**
             
-            A new branch has been automatically created for this issue:
-            
-            **Branch:** \`${branchName}\`
-            
-            You can start working on this issue by checking out the branch:
-            \`\`\`bash
-            git fetch origin
-            git checkout ${branchName}
-            \`\`\`
-            
-            Or create a codespace directly from this branch:
-            [Open in Codespace](https://github.com/${context.repo.owner}/${context.repo.repo}/codespaces/new?ref=${branchName})
-            
-            When you're ready, create a pull request to merge your changes back to main.`
-          });
-    
-    - name: Add branch link to issue
-      uses: actions/github-script@v7
-      with:
-        script: |
-          const branchName = '${{ steps.issue-info.outputs.branch-name }}';
-          const issueNumber = ${{ steps.issue-info.outputs.issue-number }};
-          
-          // Add a label to indicate branch was created
-          await github.rest.issues.addLabels({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: issueNumber,
-            labels: ['branch-created']
-          });
-          
-          // Update issue with development link (if not already present)
-          const issue = await github.rest.issues.get({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: issueNumber
-          });
-          
-          const currentBody = issue.data.body || '';
-          const developmentSection = `
+Branch: \`${branchName}\`
 
----
+You can start working on this issue:
+\`\`\`bash
+git fetch origin
+git checkout ${branchName}
+\`\`\`
 
-## 🚀 Development
-
-**Branch:** [\`${branchName}\`](https://github.com/${context.repo.owner}/${context.repo.repo}/tree/${branchName})
-**Codespace:** [Open in Codespace](https://github.com/${context.repo.owner}/${context.repo.repo}/codespaces/new?ref=${branchName})`;
-          
-          if (!currentBody.includes('## 🚀 Development')) {
-            await github.rest.issues.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issueNumber,
-              body: currentBody + developmentSection
-            });
-          }
+Happy coding! 🚀`
+          });
