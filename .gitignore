@@ -175,7 +175,11 @@ Thumbs.db
 *.swo
 
 # Project specific
-data/
+/data/processed/*.parquet
+/data/processed/*.csv
+/data/processed/*.json
+!/data/*.dvc
+!/data/**/*.dvc
 logs/
 models/
 *.pkl

@@ -1,0 +1,4 @@
+[core]
+    remote = gcs
+['remote "gcs"']
+    url = gs://emotive-currents-data-ginoasuncion-20250615/dvc-storage
