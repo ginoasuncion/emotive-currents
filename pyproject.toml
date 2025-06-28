@@ -33,6 +33,8 @@ dependencies = [ # Compatible with Intel Mac
     "requests>=2.31.0",
     # Environment variables
     "python-dotenv>=1.0.0",
+    # ML experiment tracking
+    "mlflow>=2.11.3",
     # Visualization and utilities
     "matplotlib>=3.7.0",
     "seaborn>=0.12.0",
