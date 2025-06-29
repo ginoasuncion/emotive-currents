@@ -1,0 +1,26 @@
+{
+  "experiment_name": "mistral-small-3.2-24b-emotion-classification",
+  "model": "mistralai/mistral-small-3.2-24b-instruct",
+  "temperature": 0.1,
+  "samples_per_emotion": 3,
+  "prompt_strategy": "zero-shot",
+  "random_seed": 42,
+  "prompt": {
+    "template": "You are an expert in emotion analysis. Given a sentence or paragraph, your task is to estimate the emotional intensity for each of 28 categories defined in the GoEmotions dataset. Each category should be scored between 0.0 (not present) and 1.0 (very strongly present). Multiple emotions may be present at once, or the text may be neutral.\n\nIMPORTANT: You must respond with ONLY a valid JSON object. Do not include any other text, explanations, or markdown formatting. The JSON must use double quotes for keys and values.\n\nHere are the 28 categories:\n{emotion_labels}\n\nInput: \"{input_text}\"\n\nRespond with ONLY the JSON object:",
+    "variables": {
+      "emotion_labels": "admiration, amusement, anger, annoyance, approval, caring, confusion, curiosity, desire, disappointment, disapproval, disgust, embarrassment, excitement, fear, gratitude, grief, joy, love, nervousness, optimism, pride, realization, relief, remorse, sadness, surprise, neutral"
+    },
+    "output_format": "JSON",
+    "instructions": "Return only valid JSON with emotion scores between 0.0 and 1.0. Use double quotes for all keys and values. Do not include any other text or formatting."
+  },
+  "description": "Emotion Classification Experiment using Mistral Small 3.2 24B Instruct\n\nMistral-Small-3.2-24B-Instruct-2506 is an updated 24B parameter model from Mistral optimized for instruction following, repetition reduction, and improved function calling. Compared to the 3.1 release, version 3.2 significantly improves accuracy on WildBench and Arena Hard, reduces infinite generations, and delivers gains in tool use and structured output tasks.\n\nIt supports image and text inputs with structured outputs, function/tool calling, and strong performance across coding (HumanEval+, MBPP), STEM (MMLU, MATH, GPQA), and vision benchmarks (ChartQA, DocVQA).\n\nThis experiment evaluates the performance of Mistral Small 3.2 24B Instruct on the GoEmotions dataset for multi-label emotion classification. The model is tested using zero-shot prompting with a comprehensive prompt that includes all 28 categories (27 emotions + neutral).\n\nModel: mistralai/mistral-small-3.2-24b-instruct\nTemperature: 0.1\nDataset: GoEmotions validation set\nSampling: Stratified sampling with exactly 3 samples per emotion\nReproducibility: Fixed random seed (42) ensures same dataset on each run\nMetrics: Macro/Micro F1, Precision, Recall, Top-2/3 Accuracy/Precision/Recall/F1, Per-emotion performance\nOutput: CSV with detailed results, MLflow tracking for all metrics\n\nNote: Mistral Small 3.2 24B Instruct is expected to achieve strong performance on emotion classification due to its optimized instruction following and structured output capabilities.",
+  "metadata": {
+    "model_provider": "Mistral AI",
+    "model_family": "Mistral",
+    "model_version": "Small 3.2 24B Instruct",
+    "expected_performance": "Strong",
+    "use_case": "Multi-label emotion classification",
+    "dataset": "GoEmotions",
+    "notes": "Mistral Small 3.2 24B Instruct represents Mistral's latest advancements in instruction following and structured output generation. This should translate to strong performance on structured emotion classification tasks."
+  }
+} 

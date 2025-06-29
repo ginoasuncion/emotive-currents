@@ -1,0 +1,20 @@
+{
+  "experiment_name": "deepseek-r1-distill-qwen-1-5b-emotion-classification",
+  "model": "deepseek/deepseek-r1-distill-qwen-1.5b",
+  "temperature": 0.1,
+  "samples_per_emotion": 3,
+  "prompt_strategy": "zero-shot",
+  "random_seed": 42,
+  "prompt": {
+    "template": "You are an expert in emotion analysis. Given a sentence or paragraph, your task is to estimate the emotional intensity for each of 28 categories defined in the GoEmotions dataset. Each category should be scored between 0.0 (not present) and 1.0 (very strongly present). Multiple emotions may be present at once, or the text may be neutral.\n\nIMPORTANT: You must respond with ONLY a valid JSON object. Do not include any other text, explanations, or markdown formatting. The JSON must use double quotes for keys and values.\n\nHere are the 28 categories:\n- admiration, amusement, anger, annoyance, approval, caring, confusion, curiosity, desire, disappointment, disapproval, disgust, embarrassment, excitement, fear, gratitude, grief, joy, love, nervousness, optimism, pride, realization, relief, remorse, sadness, surprise, neutral\n\nText to analyze: {input_text}\n\nRespond with a JSON object containing scores for each emotion:",
+    "variables": ["input_text"]
+  },
+  "description": "DeepSeek R1 Distill Qwen 1.5B is a distilled large language model based on Qwen 2.5 Math 1.5B, using outputs from DeepSeek R1. It's a very small and efficient model which outperforms GPT 4o 0513 on Math Benchmarks. The model leverages fine-tuning from DeepSeek R1's outputs, enabling competitive performance comparable to larger frontier models.",
+  "metadata": {
+    "provider": "DeepSeek",
+    "model_family": "R1 Distill",
+    "version": "Qwen 1.5B",
+    "expected_performance": "Efficient model with competitive performance despite small size",
+    "features": ["1.5B parameters", "Distilled model", "Math-focused", "Efficient", "Competitive benchmarks", "AIME 2024: 28.9 pass@1", "MATH-500: 83.9 pass@1"]
+  }
+} 

@@ -1,0 +1,26 @@
+{
+  "experiment_name": "gemini-2-5-flash-preview-emotion-classification",
+  "model": "google/gemini-2.5-flash-preview-05-20",
+  "temperature": 0.1,
+  "samples_per_emotion": 3,
+  "prompt_strategy": "zero-shot",
+  "random_seed": 42,
+  "prompt": {
+    "template": "You are an expert in emotion analysis. Given a sentence or paragraph, your task is to estimate the emotional intensity for each of 28 categories defined in the GoEmotions dataset. Each category should be scored between 0.0 (not present) and 1.0 (very strongly present). Multiple emotions may be present at once, or the text may be neutral.\n\nIMPORTANT: You must respond with ONLY a valid JSON object. Do not include any other text, explanations, or markdown formatting. The JSON must use double quotes for keys and values.\n\nHere are the 28 categories:\n{emotion_labels}\n\nInput: \"{input_text}\"\n\nRespond with ONLY the JSON object:",
+    "variables": {
+      "emotion_labels": "admiration, amusement, anger, annoyance, approval, caring, confusion, curiosity, desire, disappointment, disapproval, disgust, embarrassment, excitement, fear, gratitude, grief, joy, love, nervousness, optimism, pride, realization, relief, remorse, sadness, surprise, neutral"
+    },
+    "output_format": "JSON",
+    "instructions": "Return only valid JSON with emotion scores between 0.0 and 1.0. Use double quotes for all keys and values. Do not include any other text or formatting."
+  },
+  "description": "Emotion Classification Experiment using Google Gemini 2.5 Flash Preview 05-20\n\nGemini 2.5 Flash May 20th Checkpoint is Google's state-of-the-art workhorse model, specifically designed for advanced reasoning, coding, mathematics, and scientific tasks. It includes built-in \"thinking\" capabilities, enabling it to provide responses with greater accuracy and nuanced context handling.\n\nThis experiment evaluates the performance of Gemini 2.5 Flash Preview on the GoEmotions dataset for multi-label emotion classification. The model is tested using zero-shot prompting with a comprehensive prompt that includes all 27 emotion labels.\n\nModel: google/gemini-2.5-flash-preview-05-20\nTemperature: 0.1\nDataset: GoEmotions validation set\nSampling: Stratified sampling with exactly 3 samples per emotion\nReproducibility: Fixed random seed (42) ensures same dataset on each run\nMetrics: Macro/Micro F1, Precision, Recall, Top-2/3 Accuracy/Precision/Recall/F1, Per-emotion performance\nOutput: CSV with detailed results, MLflow tracking for all metrics\n\nNote: This model includes built-in thinking capabilities for enhanced reasoning and accuracy.",
+  "metadata": {
+    "model_provider": "Google",
+    "model_family": "Gemini",
+    "model_version": "2.5-Flash-Preview-05-20",
+    "expected_performance": "Very High",
+    "use_case": "Multi-label emotion classification",
+    "dataset": "GoEmotions",
+    "notes": "Gemini 2.5 Flash Preview is expected to perform excellently on emotion classification tasks due to its advanced reasoning capabilities and built-in thinking features. The model's state-of-the-art performance on complex reasoning tasks suggests it should handle nuanced emotion detection with high accuracy and better context understanding."
+  }
+} 

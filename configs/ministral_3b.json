@@ -1,0 +1,26 @@
+{
+  "experiment_name": "ministral-3b-emotion-classification",
+  "model": "mistralai/ministral-3b",
+  "temperature": 0.1,
+  "samples_per_emotion": 1,
+  "prompt_strategy": "zero-shot",
+  "random_seed": 42,
+  "prompt": {
+    "template": "You are an expert in emotion analysis. Given a sentence or paragraph, your task is to estimate the emotional intensity for each of 27 emotions defined in the GoEmotions dataset. Each emotion should be scored between 0.0 (not present) and 1.0 (very strongly present). Multiple emotions may be present at once.\n\nIMPORTANT: You must respond with ONLY a valid JSON object. Do not include any other text, explanations, or markdown formatting. The JSON must use double quotes for keys and values.\n\nHere are the 27 emotion labels:\n{emotion_labels}\n\nInput: \"{input_text}\"\n\nRespond with ONLY the JSON object:",
+    "variables": {
+      "emotion_labels": "admiration, amusement, anger, annoyance, approval, caring, confusion, curiosity, desire, disappointment, disapproval, disgust, embarrassment, excitement, fear, gratitude, grief, joy, love, nervousness, optimism, pride, realization, relief, remorse, sadness, surprise"
+    },
+    "output_format": "JSON",
+    "instructions": "Return only valid JSON with emotion scores between 0.0 and 1.0. Use double quotes for all keys and values. Do not include any other text or formatting."
+  },
+  "description": "Emotion Classification Experiment using Mistral AI Ministral 3B\n\nMinistral 3B is a 3B parameter model optimized for on-device and edge computing. It excels in knowledge, commonsense reasoning, and function-calling, outperforming larger models like Mistral 7B on most benchmarks. Supporting up to 128k context length, it's ideal for orchestrating agentic workflows and specialist tasks with efficient inference.\n\nThis experiment evaluates the performance of Ministral 3B on the GoEmotions dataset for multi-label emotion classification. The model is tested using zero-shot prompting with a comprehensive prompt that includes all 27 emotion labels.\n\nModel: mistralai/ministral-3b\nTemperature: 0.1\nDataset: GoEmotions validation set\nSampling: Stratified sampling with exactly 1 sample per emotion\nReproducibility: Fixed random seed (42) ensures same dataset on each run\nMetrics: Macro/Micro F1, Precision, Recall, Top-2/3 Accuracy/Precision/Recall/F1, Per-emotion performance\nOutput: CSV with detailed results, MLflow tracking for all metrics",
+  "metadata": {
+    "model_provider": "Mistral AI",
+    "model_family": "Ministral",
+    "model_version": "3B",
+    "expected_performance": "Medium-High",
+    "use_case": "Multi-label emotion classification",
+    "dataset": "GoEmotions",
+    "notes": "Ministral 3B is expected to perform well on emotion classification tasks despite its smaller size, as it has been optimized for commonsense reasoning and function-calling. The model's efficiency and knowledge capabilities should translate to good performance on nuanced emotion detection tasks."
+  }
+} 

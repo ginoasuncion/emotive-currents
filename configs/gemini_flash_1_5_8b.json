@@ -1,0 +1,20 @@
+{
+  "experiment_name": "gemini-flash-1.5-8b-emotion-classification",
+  "model": "google/gemini-flash-1.5-8b",
+  "temperature": 0.1,
+  "samples_per_emotion": 3,
+  "prompt_strategy": "zero-shot",
+  "random_seed": 42,
+  "prompt": {
+    "template": "You are an expert in emotion analysis. Given a sentence or paragraph, your task is to estimate the emotional intensity for each of 28 categories defined in the GoEmotions dataset. Each category should be scored between 0.0 (not present) and 1.0 (very strongly present). Multiple emotions may be present at once, or the text may be neutral.\n\nIMPORTANT: You must respond with ONLY a valid JSON object. Do not include any other text, explanations, or markdown formatting. The JSON must use double quotes for keys and values.\n\nHere are the 28 categories:\n- admiration, amusement, anger, annoyance, approval, caring, confusion, curiosity, desire, disappointment, disapproval, disgust, embarrassment, excitement, fear, gratitude, grief, joy, love, nervousness, optimism, pride, realization, relief, remorse, sadness, surprise, neutral\n\nText to analyze: {input_text}\n\nRespond with a JSON object containing scores for each emotion:",
+    "variables": ["input_text"]
+  },
+  "description": "Gemini Flash 1.5 8B is optimized for speed and efficiency, offering enhanced performance in small prompt tasks like chat, transcription, and translation. With reduced latency, it is highly effective for real-time and large-scale operations. This model focuses on cost-effective solutions while maintaining high-quality results.",
+  "metadata": {
+    "provider": "Google",
+    "model_family": "Gemini Flash",
+    "version": "1.5 8B",
+    "expected_performance": "Fast and efficient model optimized for speed and cost-effectiveness",
+    "features": ["Reduced latency", "Real-time operations", "Cost-effective solutions"]
+  }
+} 

@@ -1,0 +1,27 @@
+{
+  "experiment_name": "experiment-name-here",
+  "model": "model-name-here",
+  "temperature": 0.1,
+  "samples_per_emotion": 3,
+  "prompt_strategy": "zero-shot",
+  "random_seed": 42,
+  "prompt": {
+    "template": "Your prompt template here with {variables}",
+    "variables": {
+      "variable1": "value1",
+      "variable2": "value2"
+    },
+    "output_format": "JSON",
+    "instructions": "Additional instructions for the model"
+  },
+  "description": "Custom experiment description here...",
+  "metadata": {
+    "model_provider": "Provider name",
+    "model_family": "Model family",
+    "model_version": "Model version",
+    "expected_performance": "Expected performance level",
+    "use_case": "Use case description",
+    "dataset": "Dataset name",
+    "notes": "Additional notes about the experiment"
+  }
+} 

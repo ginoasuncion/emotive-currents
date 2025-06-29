@@ -1,0 +1,26 @@
+{
+  "experiment_name": "deepseek-chat-v3-0324-emotion-classification",
+  "model": "deepseek/deepseek-chat-v3-0324:free",
+  "temperature": 0.1,
+  "samples_per_emotion": 3,
+  "prompt_strategy": "zero-shot",
+  "random_seed": 42,
+  "prompt": {
+    "template": "You are an expert in emotion analysis. Given a sentence or paragraph, your task is to estimate the emotional intensity for each of 28 categories defined in the GoEmotions dataset. Each category should be scored between 0.0 (not present) and 1.0 (very strongly present). Multiple emotions may be present at once, or the text may be neutral.\n\nIMPORTANT: You must respond with ONLY a valid JSON object. Do not include any other text, explanations, or markdown formatting. The JSON must use double quotes for keys and values.\n\nHere are the 28 categories:\n{emotion_labels}\n\nInput: \"{input_text}\"\n\nRespond with ONLY the JSON object:",
+    "variables": {
+      "emotion_labels": "admiration, amusement, anger, annoyance, approval, caring, confusion, curiosity, desire, disappointment, disapproval, disgust, embarrassment, excitement, fear, gratitude, grief, joy, love, nervousness, optimism, pride, realization, relief, remorse, sadness, surprise, neutral"
+    },
+    "output_format": "JSON",
+    "instructions": "Return only valid JSON with emotion scores between 0.0 and 1.0. Use double quotes for all keys and values. Do not include any other text or formatting."
+  },
+  "description": "Emotion Classification Experiment using DeepSeek Chat V3 0324\n\nDeepSeek V3, a 685B-parameter, mixture-of-experts model, is the latest iteration of the flagship chat model family from the DeepSeek team. It succeeds the DeepSeek V3 model and performs really well on a variety of tasks.\n\nThis experiment evaluates the performance of DeepSeek Chat V3 0324 on the GoEmotions dataset for multi-label emotion classification. The model is tested using zero-shot prompting with a comprehensive prompt that includes all 27 emotion labels.\n\nModel: deepseek/deepseek-chat-v3-0324:free\nTemperature: 0.1\nDataset: GoEmotions validation set\nSampling: Stratified sampling with exactly 3 samples per emotion\nReproducibility: Fixed random seed (42) ensures same dataset on each run\nMetrics: Macro/Micro F1, Precision, Recall, Top-2/3 Accuracy/Precision/Recall/F1, Per-emotion performance\nOutput: CSV with detailed results, MLflow tracking for all metrics\n\nNote: This is a massive 685B parameter model with mixture-of-experts architecture, expected to deliver exceptional performance on complex reasoning tasks like emotion classification.",
+  "metadata": {
+    "model_provider": "DeepSeek",
+    "model_family": "DeepSeek",
+    "model_version": "V3-0324",
+    "expected_performance": "Very High",
+    "use_case": "Multi-label emotion classification",
+    "dataset": "GoEmotions",
+    "notes": "DeepSeek Chat V3 0324 is expected to perform exceptionally well on emotion classification tasks due to its massive 685B parameter size and mixture-of-experts architecture. The model's advanced reasoning capabilities should provide superior accuracy and nuanced understanding of complex emotional states."
+  }
+} 

@@ -184,7 +184,9 @@ logs/
 models/
 *.pkl
 *.joblib
+experiment_results/
 
 # MLflow
 mlruns/
 mlartifacts/
+*.log

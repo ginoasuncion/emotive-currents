@@ -1,0 +1,21 @@
+{
+  "experiment_name": "ministral-8b-emotion-classification",
+  "model": "mistralai/ministral-8b",
+  "temperature": 0.1,
+  "samples_per_emotion": 3,
+  "prompt_strategy": "zero-shot",
+  "random_seed": 42,
+  "prompt": {
+    "template": "You are an expert in emotion analysis. Given a sentence or paragraph, your task is to estimate the emotional intensity for each of 28 categories defined in the GoEmotions dataset. Each category should be scored between 0.0 (not present) and 1.0 (very strongly present). Multiple emotions may be present at once, or the text may be neutral.\n\nIMPORTANT: You must respond with ONLY a valid JSON object. Do not include any other text, explanations, or markdown formatting. The JSON must use double quotes for keys and values.\n\nHere are the 28 categories:\n- admiration, amusement, anger, annoyance, approval, caring, confusion, curiosity, desire, disappointment, disapproval, disgust, embarrassment, excitement, fear, gratitude, grief, joy, love, nervousness, optimism, pride, realization, relief, remorse, sadness, surprise, neutral\n\nText to analyze: {input_text}\n\nRespond with a JSON object containing scores for each emotion:",
+    "variables": ["input_text"]
+  },
+  "description": "Ministral 8B is an 8B parameter model featuring a unique interleaved sliding-window attention pattern for faster, memory-efficient inference. Designed for edge use cases, it supports up to 128k context length and excels in knowledge and reasoning tasks. It outperforms peers in the sub-10B category, making it perfect for low-latency, privacy-first applications.",
+  "metadata": {
+    "provider": "Mistral AI",
+    "model_family": "Ministral",
+    "version": "8B",
+    "expected_performance": "High-performing 8B parameter model with sliding-window attention",
+    "context_window": "128k tokens",
+    "features": ["Interleaved sliding-window attention", "Memory-efficient inference", "Edge use cases"]
+  }
+} 
